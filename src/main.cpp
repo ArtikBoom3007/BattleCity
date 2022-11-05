@@ -79,6 +79,8 @@ int main(int argc, char** argv)
             return -1;
         }
 
+        resourceManager.loadTexture("DefaultTexture", "res/textures/pngegg.png");
+        
         GLuint points_vertex_buffer_object = 0;
         glGenBuffers(1, &points_vertex_buffer_object);
         glBindBuffer(GL_ARRAY_BUFFER, points_vertex_buffer_object);
