@@ -5,6 +5,7 @@
 
 #include "Renderer/ShaderProgram.h"
 #include "Resources/ResourceManager.h"
+#include "Renderer/Texture2D.h"
 
 int g_WindowSizeX = 640;
 int g_WindowSizeY = 480;
@@ -19,6 +20,12 @@ GLfloat colors[] = {
      1.0f, 0.0f, 0.0f,
      0.0f, 1.0f, 0.0f,
      0.0f, 0.0f, 1.0f
+};
+
+GLfloat texCoord[] = {
+     0.5f, 1.0f, 
+     1.0f, 0.0f, 
+     0.0f, 0.0f, 
 };
 
 void glfwWindowSizeCallback(GLFWwindow* pWindow, int width, int height) {
@@ -79,7 +86,7 @@ int main(int argc, char** argv)
             return -1;
         }
 
-        resourceManager.loadTexture("DefaultTexture", "res/textures/pngegg.png");
+        auto tex = resourceManager.loadTexture("DefaultTexture", "res/textures/pngegg.png");
         
         GLuint points_vertex_buffer_object = 0;
         glGenBuffers(1, &points_vertex_buffer_object);
@@ -90,6 +97,11 @@ int main(int argc, char** argv)
         glGenBuffers(1, &colors_vertex_buffer_object);
         glBindBuffer(GL_ARRAY_BUFFER, colors_vertex_buffer_object);
         glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+
+        GLuint texCoord_vertex_buffer_object = 0;
+        glGenBuffers(1, &texCoord_vertex_buffer_object);
+        glBindBuffer(GL_ARRAY_BUFFER, texCoord_vertex_buffer_object);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(texCoord), texCoord, GL_STATIC_DRAW);
 
         GLuint vertex_attribute_object = 0;
         glGenVertexArrays(1, &vertex_attribute_object);
@@ -103,6 +115,12 @@ int main(int argc, char** argv)
         glBindBuffer(GL_ARRAY_BUFFER, colors_vertex_buffer_object);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
+        glEnableVertexAttribArray(2);
+        glBindBuffer(GL_ARRAY_BUFFER, texCoord_vertex_buffer_object);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+        pDefaultShaderProgram->use();
+        pDefaultShaderProgram->setInt("tex", 0);
 
         /* Loop until the user closes the pWindow */
         while (!glfwWindowShouldClose(pWindow))
@@ -112,6 +130,7 @@ int main(int argc, char** argv)
 
             pDefaultShaderProgram->use();
             glBindVertexArray(vertex_attribute_object);
+            tex->bind();
             glDrawArrays(GL_TRIANGLES, 0, 3);
 
             /* Swap front and back buffers */
