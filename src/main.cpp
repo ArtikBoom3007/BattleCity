@@ -4,26 +4,7 @@
 #include <iostream>
 
 #include "Renderer/ShaderProgram.h"
-
-const char* vertex_shader =
-"#version 430\n"
-"layout(location = 0) in vec3 vertex_position;"
-"layout(location = 1) in vec3 vertex_color;"
-"out vec3 color;"
-"void main() {"
-"   color = vertex_color;"
-"  gl_Position = vec4(vertex_position, 1.0);"
-"}";
-
-const char* fragment_shader = 
-"#version 430\n"
-"in vec3 color;"
-"out vec4 frag_color;"
-"void main() {"
- "   frag_color = vec4(color, 1.0);"
-"}";
-
-
+#include "Resources/ResourceManager.h"
 
 int g_WindowSizeX = 640;
 int g_WindowSizeY = 480;
@@ -88,12 +69,15 @@ int main(int argc, char** argv)
 
 
     glClearColor(0, 1, 1, 1);
-    std::string vertexShader(vertex_shader);
-    std::string fragmentShader(fragment_shader);
-    Renderer::ShaderProgram shaderProgram(vertexShader, fragmentShader);
-    if (!shaderProgram.isCompiled()) {
-        std::cerr << "Can't create shader program!" << std::endl;
-    }
+
+    
+    {
+        ResourceManager resourceManager(argv[0]);
+        auto pDefaultShaderProgram = resourceManager.loadShaders("DefaultShader", "res/shaders/vertex.txt", "res/shaders/fragment.txt");
+        if (!pDefaultShaderProgram) {
+            std::cerr << "Can't create shader program: " << "DefaultShader " << std::endl;
+            return -1;
+        }
 
         GLuint points_vertex_buffer_object = 0;
         glGenBuffers(1, &points_vertex_buffer_object);
@@ -124,7 +108,7 @@ int main(int argc, char** argv)
             /* Render here */
             glClear(GL_COLOR_BUFFER_BIT);
 
-            shaderProgram.use(); 
+            pDefaultShaderProgram->use();
             glBindVertexArray(vertex_attribute_object);
             glDrawArrays(GL_TRIANGLES, 0, 3);
 
@@ -134,7 +118,7 @@ int main(int argc, char** argv)
             /* Poll for and process events */
             glfwPollEvents();
         }
-    
+    }
     glfwTerminate();
     system("pause");
     return 0;
