@@ -95,9 +95,12 @@ int main(int argc, char** argv)
             return -1;
         }
 
-        auto tex = resourceManager.loadTexture("DefaultTexture", "res/textures/pngegg.png");
+        auto tex = resourceManager.loadTexture("DefaultTexture", "res/textures/map_16x16.png");
 
-        auto pSprite = resourceManager.loadSprite("NewSprite", "DefaultTexture", "SpriteShader", 50, 100);
+        std::vector<std::string> subtexturesNames = {"block", "topBlock", "bottomBlock" ,"leftBlock", "rightBlock", "topLeftBlock", "topRightBlock", "bottomLeftBlock","bottomRightBlock", "beton"};
+        auto pTextureAtlas = resourceManager.loadTextureAtlas("DefaultTextureAtlas", "res/textures/map_16x16.png", std::move(subtexturesNames), 16, 16);
+
+        auto pSprite = resourceManager.loadSprite("NewSprite", "DefaultTextureAtlas", "SpriteShader", 100, 100, "beton");
         pSprite->setPosition(glm::vec2(300, 100));
 
         GLuint points_vertex_buffer_object = 0;

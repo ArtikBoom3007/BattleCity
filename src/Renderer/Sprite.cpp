@@ -1,5 +1,6 @@
 #include "Sprite.h"
 
+
 #include "ShaderProgram.h"
 #include "Texture2D.h"
 
@@ -7,7 +8,9 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 namespace Renderer {
+
 	Sprite::Sprite(const std::shared_ptr<Texture2D> pTexture,
+		const std::string initialSubtexture,
 		const std::shared_ptr<ShaderProgram> pShaderProgram,
 		const glm::vec2& position,
 		const glm::vec2& size,
@@ -16,8 +19,7 @@ namespace Renderer {
 		, m_pShaderProgram(std::move(pShaderProgram))
 		, m_position(position)
 		, m_size(size)
-		, m_rotation(rotation)
-	{
+		, m_rotation(rotation) {
 		GLfloat vertexCoords[] = {
 			//2--3    1
 			//| /   / |
@@ -33,15 +35,17 @@ namespace Renderer {
 			 0.f,  0.f
 		};
 
+		auto subTexture = pTexture->getSubTexture(std::move(initialSubtexture));
+
 		GLfloat textureCoords[] = {
 			//U    V
-			 0.f,  0.f,
-			 0.f,  1.f,
-			 1.f,  1.f,
+			 subTexture.leftBottomUV.x,  subTexture.leftBottomUV.y,
+			 subTexture.leftBottomUV.x,  subTexture.rightTopUV.y,
+			 subTexture.rightTopUV.x,  subTexture.rightTopUV.y,
 
-			 1.f,  1.f,
-			 1.f,  0.f,
-			 0.f,  0.f
+			subTexture.rightTopUV.x,  subTexture.rightTopUV.y,
+			subTexture.rightTopUV.x,  subTexture.leftBottomUV.y,
+			subTexture.leftBottomUV.x, subTexture.leftBottomUV.y
 		};
 
 

@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 #include <glm/vec2.hpp>
 #include <memory>
+#include <string>
 
 namespace Renderer {
 	class Texture2D;
@@ -12,6 +13,7 @@ namespace Renderer {
 	{
 	public:
 		Sprite (const std::shared_ptr<Texture2D> pTexture, 
+				const std::string initialSubtexture, 
 				const std::shared_ptr<ShaderProgram> pshaderProgram, 
 				const glm::vec2& position = glm::vec2(0.f), 
 				const glm::vec2& size = glm::vec2(1.f),
