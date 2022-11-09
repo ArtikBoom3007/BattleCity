@@ -12,13 +12,30 @@
 #include <fstream>
 #include <iostream>
 
-ResourceManager::ResourceManager(const std::string& executablePath) {
+ResourceManager::ShaderProgramsMap  ResourceManager::m_shaderPrograms;
+
+ResourceManager::TexturesMap  ResourceManager::m_textures;
+
+ResourceManager::SpritesMap  ResourceManager::m_sprites;
+
+ResourceManager::AnimatedSpritesMap  ResourceManager::m_animatedSprites;
+
+std::string ResourceManager::m_path;
+
+void ResourceManager::unloadAllresources() {
+	m_shaderPrograms.clear();
+	m_textures.clear();
+	m_sprites.clear();
+	m_animatedSprites.clear();
+}
+
+void ResourceManager::setExecutablePath(const std::string& executablePath) {
 
 	size_t found = executablePath.find_last_of("/\\");
 	m_path = executablePath.substr(0, found);
 }
 
-std::string ResourceManager::getFileString(const std::string& relativeFilePath) const {
+std::string ResourceManager::getFileString(const std::string& relativeFilePath) {
 	std::ifstream f;
 	f.open(m_path + "/" + relativeFilePath.c_str(), std::ios::in | std::ios::binary);
 	if (!f.is_open()) {
@@ -123,11 +140,11 @@ std::shared_ptr<Renderer::Sprite> ResourceManager::loadSprite(const std::string 
 }
 
 std::shared_ptr<Renderer::AnimatedSprite> ResourceManager::loadAnimatedSprite(const std::string& spriteName,
-															 		  const std::string& textureName,
-																	  const std::string& shaderName,
-																	  const unsigned int spriteWidth,
-																	  const unsigned int spriteHeight,
-																	  const std::string& subTextureName)
+															 				  const std::string& textureName,
+																			  const std::string& shaderName,
+																			  const unsigned int spriteWidth,
+																			  const unsigned int spriteHeight,
+																			  const std::string& subTextureName)
 {
 	auto pTexture = getTexture(textureName);
 	if (!pTexture) {
@@ -138,7 +155,7 @@ std::shared_ptr<Renderer::AnimatedSprite> ResourceManager::loadAnimatedSprite(co
 		std::cerr << "Can't find the shader: " << shaderName << "for the sprite" << spriteName << std::endl;
 	}
 
-	std::shared_ptr<Renderer::AnimatedSprite> newSprite = m_animatedSprites.emplace(textureName,
+	std::shared_ptr<Renderer::AnimatedSprite> newSprite = m_animatedSprites.emplace(spriteName,
 		std::make_shared<Renderer::AnimatedSprite>(pTexture,
 			subTextureName,
 			pShader,
