@@ -23,7 +23,7 @@ Game::~Game() {
 }
 
 void Game::render() {
-    //ResourceManager::getAnimatedSprite("NewAnimatedSprite")->render();
+    ResourceManager::getAnimatedSprite("NewAnimatedSprite")->render();
     if (m_pTank)
     {
         m_pTank->render();
@@ -31,7 +31,7 @@ void Game::render() {
 
 }
 void Game::update(const uint64_t delta) {
-    //ResourceManager::getAnimatedSprite("NewAnimatedSprite")->update(delta);
+    ResourceManager::getAnimatedSprite("NewAnimatedSprite")->update(delta);
     if (m_pTank)
     {
         if (m_keys[GLFW_KEY_W])
@@ -168,20 +168,20 @@ bool Game::init() {
     auto pTanksAnimatedSprite = ResourceManager::loadAnimatedSprite("TanksAnimatedSprite", "TanksTextureAtlas", "SpriteShader", 100, 100, "tankTop1");
 
     std::vector<std::pair<std::string, uint64_t>> tankTopState;
-    tankTopState.emplace_back(std::make_pair<std::string, uint64_t>("tankTop1", 500000000));
-    tankTopState.emplace_back(std::make_pair<std::string, uint64_t>("tankTop2", 500000000));
+    tankTopState.emplace_back(std::make_pair<std::string, uint64_t>("tankTop1", 300000000));
+    tankTopState.emplace_back(std::make_pair<std::string, uint64_t>("tankTop2", 300000000));
 
     std::vector<std::pair<std::string, uint64_t>> tankBottomState;
-    tankBottomState.emplace_back(std::make_pair<std::string, uint64_t>("tankBottom1", 500000000));
-    tankBottomState.emplace_back(std::make_pair<std::string, uint64_t>("tankBottom2", 500000000));
+    tankBottomState.emplace_back(std::make_pair<std::string, uint64_t>("tankBottom1", 300000000));
+    tankBottomState.emplace_back(std::make_pair<std::string, uint64_t>("tankBottom2", 300000000));
 
     std::vector<std::pair<std::string, uint64_t>> tankLeftState;
-    tankLeftState.emplace_back(std::make_pair<std::string, uint64_t>("tankLeft1", 500000000));
-    tankLeftState.emplace_back(std::make_pair<std::string, uint64_t>("tankLeft2", 500000000));
+    tankLeftState.emplace_back(std::make_pair<std::string, uint64_t>("tankLeft1", 300000000));
+    tankLeftState.emplace_back(std::make_pair<std::string, uint64_t>("tankLeft2", 300000000));
 
     std::vector<std::pair<std::string, uint64_t>> tankRightState;
-    tankRightState.emplace_back(std::make_pair<std::string, uint64_t>("tankRight1", 500000000));
-    tankRightState.emplace_back(std::make_pair<std::string, uint64_t>("tankRight2", 500000000));
+    tankRightState.emplace_back(std::make_pair<std::string, uint64_t>("tankRight1", 300000000));
+    tankRightState.emplace_back(std::make_pair<std::string, uint64_t>("tankRight2", 300000000));
 
     pTanksAnimatedSprite->insertState("tankTopState",    std::move(tankTopState));
     pTanksAnimatedSprite->insertState("tankBottomState", std::move(tankBottomState));
@@ -190,7 +190,7 @@ bool Game::init() {
 
     pTanksAnimatedSprite->setState("tankTopState");
 
-    m_pTank = std::make_unique<Tank>(pTanksAnimatedSprite, 0.0000001f,  glm::vec2(100, 100));
+    m_pTank = std::make_unique<Tank>(pTanksAnimatedSprite, 0.00000015f,  glm::vec2(100, 100));
 
     return true;
 }
