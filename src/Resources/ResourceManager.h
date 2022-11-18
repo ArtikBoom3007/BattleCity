@@ -50,6 +50,7 @@ public:
 																 const unsigned int subTextureWidth,
 																 const unsigned int subTextureHeight);
 
+	static bool loadJSONRecources(const std::string& JSONPath);
 private:
 	static std::string getFileString(const std::string& relativeFilePath);
 	
