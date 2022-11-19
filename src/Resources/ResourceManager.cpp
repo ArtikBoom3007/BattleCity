@@ -293,6 +293,20 @@ bool  ResourceManager::loadJSONRecources(const std::string& JSONPath) {
 			}
 		}
 	}
+
+	auto levelsIt = document.FindMember("levels");
+	if (textureAtlasesIt != document.MemberEnd())
+	{
+		for (const auto& currentLevel : levelsIt->value.GetArray())
+		{
+			const auto description = currentLevel["description"].GetArray();
+			std::vector <std::string> levelRows;
+			levelRows.reserve(description.Size());
+			for (const auto& currentRow : description) {
+				levelRows.emplace_back(currentRow.GetString());
+			}
+		}
+	}
 	return true;
 
 }
