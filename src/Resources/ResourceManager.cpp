@@ -239,7 +239,7 @@ bool  ResourceManager::loadJSONRecources(const std::string& JSONPath) {
 				const auto framesArray = framesIt->value.GetArray();
 				std::vector<RenderEngine::Sprite::FrameDescription> framesDescriptions;
 				framesDescriptions.reserve(framesArray.Size());
-				for (const auto& currentFrame : framesIt->value.GetArray()) {
+				for (const auto& currentFrame : framesArray) {
 					const std::string subTextureStr = currentFrame["subTexture"].GetString();
 					const uint64_t duration = currentFrame["duration"].GetUint64();
 					const auto pTextureAtlas = getTexture(textureAtlas);
