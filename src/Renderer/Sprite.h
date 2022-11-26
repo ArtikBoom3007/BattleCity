@@ -19,7 +19,7 @@ namespace RenderEngine {
 
 		struct FrameDescription {
 
-			FrameDescription(const glm::vec2 _leftBottomUV,const	glm::vec2 _rightTopUV, const uint64_t _duration)
+			FrameDescription(const glm::vec2 _leftBottomUV,const	glm::vec2 _rightTopUV, const double _duration)
 				: leftBottomUV(_leftBottomUV)
 				, rightTopUV(_rightTopUV)
 				, duration(_duration)
