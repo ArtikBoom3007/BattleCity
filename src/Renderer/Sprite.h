@@ -26,7 +26,7 @@ namespace RenderEngine {
 			{}
 			glm::vec2 leftBottomUV;
 			glm::vec2 rightTopUV;
-			uint64_t duration;
+			double duration;
 		};
 
 		Sprite (std::shared_ptr<Texture2D> pTexture, 
@@ -44,7 +44,7 @@ namespace RenderEngine {
 					const size_t frameId = 0) const;
 
 		void insertFrames(std::vector<FrameDescription> framesDescriptions);
-		uint64_t getFramesDuration(const size_t frameId) const;
+		double getFramesDuration(const size_t frameId) const;
 		size_t getFramesCount() const;
 
 	protected:

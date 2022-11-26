@@ -108,7 +108,7 @@ namespace RenderEngine {
 		m_framesDescriptions = std::move(framesDescriptions);
 	}
 
-	uint64_t Sprite::getFramesDuration(const size_t frameId) const {
+	double Sprite::getFramesDuration(const size_t frameId) const {
 		return m_framesDescriptions[frameId].duration;
 	}
 

@@ -16,6 +16,6 @@ void Eagle::render() const {
 
 }
 
-void Eagle::update(const uint64_t delta) {
+void Eagle::update(const double delta) {
 
 }
