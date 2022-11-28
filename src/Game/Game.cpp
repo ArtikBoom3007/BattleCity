@@ -15,8 +15,8 @@
 #include <iostream>
 
 Game::Game(const glm::ivec2& windowSize) 
-    : m_eCurrentGameState(EGameState::Active)
-    , m_windowSize(windowSize) {
+    : m_windowSize(windowSize)
+    , m_eCurrentGameState(EGameState::Active) {
 	m_keys.fill(false);
 }
 Game::~Game() {
@@ -81,7 +81,7 @@ bool Game::init() {
         return false;
     }
 
-    m_pLevel = std::make_shared<Level>(ResourceManager::getLevels()[0]);
+    m_pLevel = std::make_shared<Level>(ResourceManager::getLevels()[1]);
     m_windowSize.x = static_cast<int>(m_pLevel->getLevelWidth());
     m_windowSize.y = static_cast<int>(m_pLevel->getLevelHeight());
     Physics::PhysicsEngine::setCurrentLevel(m_pLevel);
