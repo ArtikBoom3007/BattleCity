@@ -84,7 +84,7 @@ int main(int argc, char** argv)
     
     {
         ResourceManager::setExecutablePath(argv[0]);
-        PhysicsEngine::init();
+        Physics::PhysicsEngine::init();
         g_game->init();
 
         glfwSetWindowSize(pWindow, static_cast<int>(3 * g_game->getCurrentLevelWidth()), 3 * static_cast<int>(g_game->getCurrentLevelHeight()));
@@ -101,7 +101,7 @@ int main(int argc, char** argv)
             double duration = std::chrono::duration<double, std::milli>(CurrentTime - lastTime).count();
             lastTime = CurrentTime;
             g_game->update(duration);
-            PhysicsEngine::update(duration);
+            Physics::PhysicsEngine::update(duration);
 
             /* Render here */
             RenderEngine::Renderer::clear();

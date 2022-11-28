@@ -41,6 +41,8 @@ Tank::Tank(const double maxVelocity,
 		}
 
 	);
+
+	m_colliders.emplace_back(glm::vec2(0), m_size);
 }
 
 void Tank::setVelocity(const double velocity) {
