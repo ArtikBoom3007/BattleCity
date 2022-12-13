@@ -1,14 +1,14 @@
 #include "Level.h"
 
-#include "GameObjects/IGameObject.h"
+#include "../GameObjects/IGameObject.h"
 
-#include "GameObjects/BrickWall.h"
-#include "GameObjects/BetonWall.h"
-#include "GameObjects/Trees.h"
-#include "GameObjects/Ice.h"
-#include "GameObjects/Water.h"
-#include "GameObjects/Eagle.h"
-#include "GameObjects/Border.h"
+#include "../GameObjects/BrickWall.h"
+#include "../GameObjects/BetonWall.h"
+#include "../GameObjects/Trees.h"
+#include "../GameObjects/Ice.h"
+#include "../GameObjects/Water.h"
+#include "../GameObjects/Eagle.h"
+#include "../GameObjects/Border.h"
 
 #include <iostream>
 #include <algorithm>
@@ -161,12 +161,12 @@ void Level::update(const double delta) {
 	}
 }
 
-size_t Level::getLevelWidth() const {
-	return (m_widthBlocks + 3) * BLOCK_SIZE;
+unsigned int Level::getStateWidth() const {
+	return static_cast<unsigned int>((m_widthBlocks + 3) * BLOCK_SIZE);
 }
 
-size_t Level::getLevelHeight() const {
-	return (m_heightBlocks + 1) * BLOCK_SIZE;
+unsigned int Level::getStateHeight() const {
+	return static_cast<unsigned int>((m_heightBlocks + 1) * BLOCK_SIZE);
 }
 
 std::vector<std::shared_ptr<IGameObject>> Level::getObjectsInArea(const glm::vec2& bottomLeft, const glm::vec2& topRight) {
