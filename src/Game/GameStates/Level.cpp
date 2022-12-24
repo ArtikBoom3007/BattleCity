@@ -172,7 +172,7 @@ void Level::update(const double delta) {
 	m_pTank->update(delta);
 }
 
-void Level::processInput(std::array<bool, 349>& keys) {
+void Level::processInput(const std::array<bool, 349>& keys) {
 	if (keys[GLFW_KEY_W])
 	{
 		m_pTank->setOrientation(Tank::EOrientation::Top);

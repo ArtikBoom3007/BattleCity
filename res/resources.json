@@ -370,6 +370,16 @@
 				"redType8_right1",
 				"redType8_right2"
 			]
+		},
+		
+		{
+			"name" 				: "menu_128x64",
+			"filePath"  		: "res/textures/menu_128x64.png",
+			"subTextureWidth"   : 128,
+			"subTextureHeight"  : 64,
+			"subTextures" : [
+				"menu"
+			]
 		}
 	],
 
@@ -610,8 +620,9 @@
                 {
                     "subTexture" : "explosion2",
                     "duration"   : 100
-                },
-				{
+                }
+                ,
+                {
                     "subTexture" : "explosion3",
                     "duration"   : 100
                 }
@@ -724,7 +735,13 @@
             "shader"            : "spriteShader",
             "initialSubTexture" : "bonus_gun"
         },
-        
+		
+        {
+            "name"              : "menu",
+            "textureAtlas"      : "menu_128x64",
+            "shader"            : "spriteShader",
+            "initialSubTexture" : "menu"
+        },
         
         
         {
@@ -796,7 +813,7 @@
 		}
 	],
 	
-	"start_screen" : [
+    "start_screen" : [
         "CCCFFC4F8CC48CC484FF8CC4",
         "0FA5E1B4FA5FFA5FA5FFA5FF",
         "03B40CE5FA5FFA5FA5FFA73F",
@@ -807,7 +824,7 @@
         "FFFFA5FFFF0FFF0FF201FFFF",
         "FFFFFBC7FC0CFF0FFF0FFFFF"
     ],
-	
+
 	"levels" : [
 		{
 			"description" : [

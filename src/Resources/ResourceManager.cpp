@@ -219,7 +219,7 @@ bool  ResourceManager::loadJSONRecources(const std::string& JSONPath) {
 			for (const auto& currentSubTexture : subTexturesArray) {
 				subTextures.emplace_back(currentSubTexture.GetString());
 			}
-			loadTextureAtlas(name, filePath, std::move(subTextures), subTextureWidth, subTextureWidth);
+			loadTextureAtlas(name, filePath, std::move(subTextures), subTextureWidth, subTextureHeight);
 		}
 	}
 
