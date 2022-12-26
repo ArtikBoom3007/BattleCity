@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <set>
 
 #include <glm/vec2.hpp>
 
@@ -47,4 +48,5 @@ private:
 
 	std::vector<std::shared_ptr<IGameObject>> m_levelObjects;
 	std::shared_ptr<Tank> m_pTank;
+	std::set< std::shared_ptr<Tank>> m_enemyTanks;
 };

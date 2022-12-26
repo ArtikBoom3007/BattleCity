@@ -1,6 +1,0 @@
-constexpr
-shared_pointer
-make unique
-std::move
-std::pair
-конструктор () :
