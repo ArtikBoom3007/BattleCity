@@ -20,7 +20,9 @@
 
 Game::Game(const glm::uvec2& windowSize) 
     : m_windowSize(windowSize)
-    , m_eCurrentGameState(EGameState::StartScreen) {
+    , m_eCurrentGameState(EGameState::StartScreen) 
+    , m_currentLevelIndex(0)
+{
 	m_keys.fill(false);
 }
 
@@ -60,41 +62,21 @@ void Game::updateViewport() {
     m_pSpriteShaderProgram->setMatrix4("projectionMat", projectionMatrix);
 }
 
-void Game::startNewLevel(const size_t level) {
-    auto pLevel = std::make_shared<Level>(ResourceManager::getLevels()[0]);
+void Game::startNewLevel(const size_t level, const EGameMode eGameMode) {
+    m_currentLevelIndex = level;
+    auto pLevel = std::make_shared<Level>(ResourceManager::getLevels()[m_currentLevelIndex], eGameMode);
     m_pCurrentGameState = pLevel;
     Physics::PhysicsEngine::setCurrentLevel(pLevel);
     updateViewport();
 }
 
+void Game::nextLevel(const EGameMode eGameMode) {
+    startNewLevel(++m_currentLevelIndex, eGameMode);
+}
+
 void Game::update(const double delta) {
     m_pCurrentGameState->processInput(m_keys);
     m_pCurrentGameState->update(delta);
-    /*
-    switch (m_eCurrentGameState)
-    {
-    case Game::EGameState::StartScreen:
-        if (m_keys[GLFW_KEY_ENTER]) {
-            m_eCurrentGameState = EGameState::Level;
-            startNewLevel(0);
-        }
-        break;
-    case Game::EGameState::LevelStart:
-        break;
-    case Game::EGameState::Level:
-     
-        break;
-    case Game::EGameState::Pause:
-        break;
-    case Game::EGameState::Scores:
-        break;
-    case Game::EGameState::GameOver:
-        break;
-    default:
-        break;
-    }
- */
-
 }
 void Game::setKey(const int key, const int action) {
 	m_keys[key] = action;
