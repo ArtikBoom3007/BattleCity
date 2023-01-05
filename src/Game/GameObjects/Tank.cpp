@@ -73,7 +73,7 @@ Tank::Tank(const Tank::ETankType eType,
 
 	auto onCollisionCallback = [&](const IGameObject& object, const Physics::ECollisionDirection) {
 		if (object.getObjectType() == EObjectType::Bullet) {
-			loseHP(1);
+			loseHP();
 		}
 	};
 	m_colliders.emplace_back(glm::vec2(0), m_size, onCollisionCallback);
@@ -93,7 +93,7 @@ void Tank::setVelocity(const double velocity) {
 	}
 }
 
-void Tank::loseHP(const int HPamount)
+void Tank::loseHP()
 {
 	if (m_healthPoints == 1) {
 		destroyTank();

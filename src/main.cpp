@@ -91,6 +91,8 @@ int main(int argc, char** argv)
             auto CurrentTime = std::chrono::high_resolution_clock::now();
             double duration = std::chrono::duration<double, std::milli>(CurrentTime - lastTime).count();
             lastTime = CurrentTime;
+            if (duration > 30)
+                duration = 30;
             g_game->update(duration);
             Physics::PhysicsEngine::update(duration);
 

@@ -40,7 +40,7 @@ namespace Physics {
 				continue;
 			}
 			else if (currentObject->getCurrentPosition().x + currentObject->getSize().x > bottomLeft_searching.x && currentObject->getCurrentPosition().y + currentObject->getSize().y > bottomLeft_searching.y) {
-				if (currentObject->getCurrentPosition().x < topRight_searching.x && currentObject->getCurrentPosition().y < +currentObject->getSize().y < topRight_searching.y) {
+				if (currentObject->getCurrentPosition().x < topRight_searching.x && currentObject->getCurrentPosition().y + currentObject->getSize().y < topRight_searching.y) {
 					output.push_back(currentObject);
 				}
 			}
@@ -58,15 +58,15 @@ namespace Physics {
 				if (pObject1->getOwner() == pObject2.get() || pObject2->getOwner() == pObject1.get()) {
 					continue;
 				}
-				if (!hasPositionIntersection(pObject1, pObject1->getTargetPosition(),
+				if (!hasPositionIntersection(pObject1, pObject1->getCurrentPosition(), pObject1->getTargetPosition(),
 											 pObject2, pObject2->getTargetPosition())) {
 					continue;
 				}
-				if (hasPositionIntersection( pObject1, pObject1->getTargetPosition(),
+				if (hasPositionIntersection( pObject1, pObject1->getCurrentPosition(), pObject1->getTargetPosition(),
 											 pObject2, pObject2->getCurrentPosition())) {
 					pObject1->getTargetPosition() = pObject1->getCurrentPosition();
 				}
-				if (hasPositionIntersection(pObject2, pObject2->getTargetPosition(),
+				if (hasPositionIntersection(pObject2, pObject2->getCurrentPosition(), pObject2->getTargetPosition(),
 											pObject1, pObject1->getCurrentPosition())) {
 					pObject2->getTargetPosition() = pObject2->getCurrentPosition();
 				}
@@ -113,7 +113,7 @@ namespace Physics {
 						const auto& collidersToCheck = currentObjectToCheck->getColliders();
 						if (currentObjectToCheck->collides(currentDynamicObject->getObjectType()) && !collidersToCheck.empty()) {
 							for (const auto& currentObjectCollider : currentObjectToCheck->getColliders()) {
-								if (currentObjectCollider.isActive && hasCollidersIntersection(currentDynamicObjectCollider, newPosition, currentObjectCollider, currentObjectToCheck->getCurrentPosition())) {
+								if (currentObjectCollider.isActive && hasCollidersIntersection(currentDynamicObjectCollider, currentDynamicObject->getTargetPosition(), newPosition, currentObjectCollider, currentObjectToCheck->getCurrentPosition())) {
 									hasCollision = true;
 									if (currentObjectCollider.onCollisionCallback) {
 										currentObjectCollider.onCollisionCallback(*currentDynamicObject, objectCollisionDirection);
@@ -154,13 +154,13 @@ namespace Physics {
 	void PhysicsEngine::addDynamicGameObject(std::shared_ptr<IGameObject> pGameObject) {
 		m_dynamicObjects.insert(std::move(pGameObject));
 	}
-	bool PhysicsEngine::hasPositionIntersection(const std::shared_ptr<IGameObject>& pObject1, const glm::vec2& position1,
+	bool PhysicsEngine::hasPositionIntersection(const std::shared_ptr<IGameObject>& pObject1, const glm::vec2& last_position1, const glm::vec2& position1,
 												const std::shared_ptr<IGameObject>& pObject2, const glm::vec2& position2) {
 		const auto& currentObjectColliders = pObject1->getColliders();
 		const auto& otherObjectColliders =   pObject2->getColliders();
 		for (const auto& currentObjectCollider : currentObjectColliders) {
 			for (const auto&otherObjectCollider : otherObjectColliders) {
-				if (hasCollidersIntersection(currentObjectCollider, position1, otherObjectCollider, position2)) {
+				if (hasCollidersIntersection(currentObjectCollider, last_position1, position1, otherObjectCollider, position2)) {
 					return true;
 				}
 			}
@@ -168,26 +168,37 @@ namespace Physics {
 		return false;
 	}
 
-	bool PhysicsEngine::hasCollidersIntersection(const Collider& collider1, const glm::vec2& position1,
-										const Collider& collider2, const glm::vec2& position2) {
+	bool PhysicsEngine::hasCollidersIntersection(const Collider& collider1, const glm::vec2& last_position1, const glm::vec2& position1,
+												 const Collider& collider2, const glm::vec2& position2) {
 
 		const glm::vec2 currentCollider1_bottomLeft_world = collider1.boundingBox.bottomLeft + position1;
 		const glm::vec2 currentCollider1_topRight_world = collider1.boundingBox.topRight + position1;
 
+		const glm::vec2 lastCollider1_bottomLeft_world = collider1.boundingBox.bottomLeft + last_position1;
+		const glm::vec2 lastCollider1_topRight_world = collider1.boundingBox.topRight + last_position1;
+
 		const glm::vec2 currentCollider2_bottomLeft_world = collider2.boundingBox.bottomLeft + position2;
 		const glm::vec2 currentCollider2_topRight_world = collider2.boundingBox.topRight + position2;
 
-		if (currentCollider1_bottomLeft_world.x >= currentCollider2_topRight_world.x) {
+		if (currentCollider1_bottomLeft_world.x >= currentCollider2_topRight_world.x && lastCollider1_bottomLeft_world.x >= currentCollider2_topRight_world.x) {
 			return false;
 		}
-		if (currentCollider1_topRight_world.x <= currentCollider2_bottomLeft_world.x) {
+		if (currentCollider1_topRight_world.x <= currentCollider2_bottomLeft_world.x && lastCollider1_topRight_world.x <= currentCollider2_topRight_world.x) {
 			return false;
 		}
-		if (currentCollider1_bottomLeft_world.y >= currentCollider2_topRight_world.y) {
+		if (currentCollider1_bottomLeft_world.y >= currentCollider2_topRight_world.y && lastCollider1_bottomLeft_world.y >= currentCollider2_topRight_world.y) {
 			return false;
 		}
-		if (currentCollider1_topRight_world.y <= currentCollider2_bottomLeft_world.y) {
+		if (currentCollider1_topRight_world.y <= currentCollider2_bottomLeft_world.y && lastCollider1_topRight_world.y <= currentCollider2_bottomLeft_world.y) {
 			return false;
+		}
+		if (lastCollider1_topRight_world.x <= currentCollider2_bottomLeft_world.x && currentCollider1_bottomLeft_world.x >= currentCollider2_topRight_world.x
+			&& (lastCollider1_topRight_world.y > currentCollider2_bottomLeft_world.y || lastCollider1_bottomLeft_world.y < currentCollider2_topRight_world.y)) {
+			return true;
+		}
+		if (lastCollider1_bottomLeft_world.y >= currentCollider2_topRight_world.y && currentCollider1_topRight_world.y <= currentCollider2_bottomLeft_world.y
+			&& (lastCollider1_topRight_world.x > currentCollider2_bottomLeft_world.x || lastCollider1_bottomLeft_world.x < currentCollider2_topRight_world.x) ) {
+			return true;
 		}
 
 		return true;
