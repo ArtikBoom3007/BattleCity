@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <glm/vec2.hpp>
+#include <string>
 
 #include "IGameObject.h"
 #include "../../Renderer/SpriteAnimator.h"
@@ -94,6 +95,8 @@ public:
 	void update(const double delta) override;
 	double getMaxVelocity() const { return m_maxVelocity; }
 	void setVelocity(const double velocity) override;
+    void loseHP(const int HPamount);
+    void destroyTank();
 	void fire();
 
 private:
@@ -114,13 +117,22 @@ private:
 	std::shared_ptr<RenderEngine::Sprite> m_pSprite_shield;
 	RenderEngine::SpriteAnimator m_spriteAnimator_shield;
 
+    std::shared_ptr<RenderEngine::Sprite> m_pSprite_explosionTank;
+    RenderEngine::SpriteAnimator m_spriteAnimator_explosionTank;
+
 	Timer m_respawnTimer;
 	Timer m_shieldTimer;
+    Timer m_explisonTimer;
 
 	double m_maxVelocity;
+    bool m_isAlive;
+    bool m_isExplosion;
 	bool m_isSpawning;
 	bool m_hasShield;
     bool m_bShieldOnSpawn;
+    unsigned int m_maxHealthPoints = 3;
+    unsigned int m_healthPoints;
+
 
     std::unique_ptr<AIComponent> m_pAIComponent;
 

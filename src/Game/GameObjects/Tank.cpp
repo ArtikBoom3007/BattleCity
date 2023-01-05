@@ -25,6 +25,8 @@ Tank::Tank(const Tank::ETankType eType,
 	, m_pSprite_bottom(ResourceManager::getSprite(getTankSpriteFromType(eType) + "_bottom"))
 	, m_pSprite_left(ResourceManager::getSprite(getTankSpriteFromType(eType)   + "_left"))
 	, m_pSprite_right(ResourceManager::getSprite(getTankSpriteFromType(eType)  + "_right"))
+	, m_pSprite_explosionTank(ResourceManager::getSprite("explosion"))
+	, m_spriteAnimator_explosionTank(m_pSprite_explosionTank)
 	, m_spriteAnimator_top(m_pSprite_top)
 	, m_spriteAnimator_bottom(m_pSprite_bottom)
 	, m_spriteAnimator_left(m_pSprite_left)
@@ -37,6 +39,10 @@ Tank::Tank(const Tank::ETankType eType,
 	, m_isSpawning(true)
 	, m_hasShield(false)
 	, m_bShieldOnSpawn(bShieldOnSpawn)
+	, m_maxHealthPoints(3)
+	, m_healthPoints(3)
+	, m_isAlive(true)
+	, m_isExplosion(false)
 {
 	setOrientation(m_eOrientation);
 	m_respawnTimer.setCallback([&]()
@@ -57,7 +63,6 @@ Tank::Tank(const Tank::ETankType eType,
 			m_hasShield = false;
 	});
 
-	m_colliders.emplace_back(glm::vec2(0), m_size);
 	m_pCurrentBullet->setOwner(this);
 
 	Physics::PhysicsEngine::addDynamicGameObject(m_pCurrentBullet);
@@ -65,6 +70,21 @@ Tank::Tank(const Tank::ETankType eType,
 	if (bHasAI) {
 		m_pAIComponent = std::make_unique<AIComponent>(this);
 	}
+
+	auto onCollisionCallback = [&](const IGameObject& object, const Physics::ECollisionDirection) {
+		if (object.getObjectType() == EObjectType::Bullet) {
+			loseHP(1);
+		}
+	};
+	m_colliders.emplace_back(glm::vec2(0), m_size, onCollisionCallback);
+
+	m_explisonTimer.setCallback([&]()
+		{
+			m_isExplosion = false;
+			m_isAlive = false;
+			m_spriteAnimator_explosionTank.reset();
+		}
+	);
 }
 
 void Tank::setVelocity(const double velocity) {
@@ -73,12 +93,30 @@ void Tank::setVelocity(const double velocity) {
 	}
 }
 
+void Tank::loseHP(const int HPamount)
+{
+	if (m_healthPoints == 1) {
+		destroyTank();
+		m_healthPoints = 0;
+		return;
+	}
+	if (m_healthPoints != 0) {
+		m_healthPoints--;
+	}
+}
+
+void Tank::destroyTank()
+{
+	m_isExplosion = true;
+	m_explisonTimer.start(m_spriteAnimator_explosionTank.getTotalDuration());
+}
+
 void Tank::render() const {
 	if (m_isSpawning) {
 		m_pSprite_respawn->render(m_position, m_size, m_rotation, m_layer, m_spriteAnimator_respawn.getCurrentFrame());
 
 	}
-	else {
+	else if (m_isAlive) {
 		switch (m_eOrientation)
 		{
 		case Tank::EOrientation::Top:
@@ -98,6 +136,9 @@ void Tank::render() const {
 		if (m_hasShield) {
 			m_pSprite_shield->render(m_position, m_size, m_rotation, m_layer + 0.1f, m_spriteAnimator_shield.getCurrentFrame());
 		}
+	}
+	if (m_isExplosion) {
+		m_pSprite_explosionTank->render(m_position, m_size, m_rotation, m_layer + 0.2f, m_spriteAnimator_explosionTank.getCurrentFrame());
 	}
 
 	if (m_pCurrentBullet->isActive()) {
@@ -139,30 +180,36 @@ void Tank::update(const double delta) {
 		m_respawnTimer.update(delta);
 	}
 	else {
-		if (m_pAIComponent) {
-			m_pAIComponent->update(delta);
-		}
 
 		if (m_hasShield) {
 			m_spriteAnimator_shield.update(delta);
 			m_shieldTimer.update(delta);
 		}
+		if (m_isExplosion) {
+			m_spriteAnimator_explosionTank.update(delta);
+			m_explisonTimer.update(delta);
+		}
+		if (m_isAlive) {
+			if (m_pAIComponent) {
+				m_pAIComponent->update(delta);
+			}
 
-		if (m_velocity > 0) {
-			switch (m_eOrientation)
-			{
-			case Tank::EOrientation::Top:
-				m_spriteAnimator_top.update(delta);
-				break;
-			case Tank::EOrientation::Bottom:
-				m_spriteAnimator_bottom.update(delta);
-				break;
-			case Tank::EOrientation::Left:
-				m_spriteAnimator_left.update(delta);
-				break;
-			case Tank::EOrientation::Right:
-				m_spriteAnimator_right.update(delta);
-				break;
+			if (m_velocity > 0) {
+				switch (m_eOrientation)
+				{
+				case Tank::EOrientation::Top:
+					m_spriteAnimator_top.update(delta);
+					break;
+				case Tank::EOrientation::Bottom:
+					m_spriteAnimator_bottom.update(delta);
+					break;
+				case Tank::EOrientation::Left:
+					m_spriteAnimator_left.update(delta);
+					break;
+				case Tank::EOrientation::Right:
+					m_spriteAnimator_right.update(delta);
+					break;
+				}
 			}
 		}
 	}
