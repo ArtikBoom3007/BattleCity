@@ -63,6 +63,7 @@ namespace Physics {
 		static void update(const double delta);
 		static void addDynamicGameObject(std::shared_ptr<IGameObject> pGameObject);
 		static void setCurrentLevel(std::shared_ptr<Level> pLevel);
+		static std::vector<std::shared_ptr<IGameObject>> getDynamicObjectsInArea(const std::shared_ptr<IGameObject>& object);
 
 	private:
 		static std::unordered_set<std::shared_ptr<IGameObject>> m_dynamicObjects;

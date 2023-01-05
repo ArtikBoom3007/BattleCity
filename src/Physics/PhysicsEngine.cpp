@@ -3,6 +3,9 @@
 #include "../Game/GameObjects/IGameObject.h"
 #include "../Game/GameStates/Level.h"
 
+#include <algorithm>
+
+
 namespace Physics {
 
 	std::unordered_set<std::shared_ptr<IGameObject>> PhysicsEngine::m_dynamicObjects;
@@ -21,6 +24,28 @@ namespace Physics {
 		m_pCurrentLevel.swap(pLevel);
 		m_dynamicObjects.clear();
 		m_pCurrentLevel->initLevel();
+	}
+
+	std::vector<std::shared_ptr<IGameObject>> PhysicsEngine::getDynamicObjectsInArea(const std::shared_ptr<IGameObject>& object)
+	{ 
+		std::vector<std::shared_ptr<IGameObject>> output;
+		output.reserve(9);
+		const int seekingArea = 20;
+
+		glm::vec2 bottomLeft_searching(object->getCurrentPosition().x - seekingArea, object->getCurrentPosition().y - seekingArea);
+		glm::vec2 topRight_searching(object->getCurrentPosition().x + object->getSize().x + seekingArea, object->getCurrentPosition().y + object->getSize().y + seekingArea );
+
+		for (const auto& currentObject : m_dynamicObjects) {
+			if (currentObject == object || currentObject->getOwner() == object.get() || object->getOwner() == currentObject.get()) {
+				continue;
+			}
+			else if (currentObject->getCurrentPosition().x + currentObject->getSize().x > bottomLeft_searching.x && currentObject->getCurrentPosition().y + currentObject->getSize().y > bottomLeft_searching.y) {
+				if (currentObject->getCurrentPosition().x < topRight_searching.x && currentObject->getCurrentPosition().y < +currentObject->getSize().y < topRight_searching.y) {
+					output.push_back(currentObject);
+				}
+			}
+		}
+		return output;
 	}
 
 	void PhysicsEngine::update(const double delta) {
@@ -52,6 +77,7 @@ namespace Physics {
 		
 	}
 
+
 	void PhysicsEngine::calculateTargetPositions(std::unordered_set<std::shared_ptr<IGameObject>>& dynamicObjects, const double delta) {
 		for (auto& currentDynamicObject : dynamicObjects) {
 			if (currentDynamicObject->getCurrentVelocity() > 0) {
@@ -65,6 +91,8 @@ namespace Physics {
 				}
 				const auto newPosition = currentDynamicObject->getTargetPosition() + currentDynamicObject->getCurrentDirection() * static_cast<float>(currentDynamicObject->getCurrentVelocity() * delta);
 				std::vector<std::shared_ptr<IGameObject>> objectsToCheck = m_pCurrentLevel->getObjectsInArea(newPosition, newPosition + currentDynamicObject->getSize());
+				std::vector<std::shared_ptr<IGameObject>> dynamicObjectsToCheck = getDynamicObjectsInArea(currentDynamicObject);
+				objectsToCheck.insert(objectsToCheck.end(),dynamicObjectsToCheck.begin(), dynamicObjectsToCheck.end());
 
 				const auto& colliders = currentDynamicObject->getColliders();
 				bool hasCollision = false;

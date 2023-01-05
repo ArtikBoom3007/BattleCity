@@ -11,6 +11,8 @@
 #include "../GameObjects/Border.h"
 #include "../GameObjects/Tank.h"
 
+#include "../../Physics/PhysicsEngine.h"
+
 #include <GLFW/glfw3.h>
 
 #include <iostream>
@@ -290,11 +292,11 @@ unsigned int Level::getStateHeight() const {
 
 std::vector<std::shared_ptr<IGameObject>> Level::getObjectsInArea(const glm::vec2& bottomLeft, const glm::vec2& topRight) {
 	std::vector<std::shared_ptr<IGameObject>> output;
-	output.reserve(9);
+	output.reserve(20);
 
 	glm::vec2 bottomLeft_converted(std::clamp(bottomLeft.x - BLOCK_SIZE, 0.f,static_cast<float>(m_widthPixels)),
 								   std::clamp(m_heightPixels - bottomLeft.y + BLOCK_SIZE / 2, 0.f, static_cast<float>(m_heightPixels)));
-	glm::vec2 topRight_converted(std::clamp(topRight.x - BLOCK_SIZE, 0.f, static_cast<float>(m_widthPixels)),
+	glm::vec2 topRight_converted(std::clamp(topRight.x + BLOCK_SIZE, 0.f, static_cast<float>(m_widthPixels)),
 							     std::clamp(m_heightPixels - topRight.y + BLOCK_SIZE / 2, 0.f, static_cast<float>(m_heightPixels)));
 	
 	size_t  startX = static_cast<size_t>(floor(bottomLeft_converted.x / BLOCK_SIZE));
@@ -326,6 +328,7 @@ std::vector<std::shared_ptr<IGameObject>> Level::getObjectsInArea(const glm::vec
 	if (endY >= m_heightBlocks) {
 		output.push_back(m_levelObjects[m_levelObjects.size() - 4]);
 	}
+
 
 	return output;
 }

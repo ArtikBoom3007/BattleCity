@@ -15,7 +15,11 @@ static constexpr unsigned int BLOCK_SIZE = 16;
 glm::uvec2 g_windowSize(SCALE * 16 * BLOCK_SIZE, SCALE * 15 * BLOCK_SIZE);
 std::unique_ptr<Game> g_game = std::make_unique<Game>(g_windowSize);
 
-
+void centerWindow(GLFWwindow* Window) {
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    glfwSetWindowPos(Window, (mode->width - g_windowSize.x) / 2, (mode->height - g_windowSize.y) / 2);
+}
 
 void glfwWindowSizeCallback(GLFWwindow* pWindow, int width, int height) {
     g_windowSize.x = width;
@@ -52,6 +56,7 @@ int main(int argc, char** argv)
         return -1;
     }
 
+    centerWindow(pWindow);
     glfwSetWindowSizeCallback(pWindow, glfwWindowSizeCallback);
     glfwSetKeyCallback(pWindow, glfwKeyCallback);
     /* Make the pWindow's context current */
