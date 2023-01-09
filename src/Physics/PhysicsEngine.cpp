@@ -82,7 +82,7 @@ namespace Physics {
 		for (auto& currentDynamicObject : dynamicObjects) {
 			if (currentDynamicObject->getCurrentVelocity() > 0) {
 				//allign position to multiple of 4 pixels
-				if (currentDynamicObject->getCurrentDirection().x != 0.f) {
+			if (currentDynamicObject->getCurrentDirection().x != 0.f) {
 					currentDynamicObject->getTargetPosition() = glm::vec2(currentDynamicObject->getCurrentPosition().x, static_cast<unsigned int>(currentDynamicObject->getCurrentPosition().y / 4.f + 0.5f) * 4.f);
 				}
 				else if (currentDynamicObject->getCurrentDirection().y != 0.f) // top and bottom
@@ -115,6 +115,7 @@ namespace Physics {
 							for (const auto& currentObjectCollider : currentObjectToCheck->getColliders()) {
 								if (currentObjectCollider.isActive && hasCollidersIntersection(currentDynamicObjectCollider, currentDynamicObject->getTargetPosition(), newPosition, currentObjectCollider, currentObjectToCheck->getCurrentPosition())) {
 									hasCollision = true;
+
 									if (currentObjectCollider.onCollisionCallback) {
 										currentObjectCollider.onCollisionCallback(*currentDynamicObject, objectCollisionDirection);
 									}

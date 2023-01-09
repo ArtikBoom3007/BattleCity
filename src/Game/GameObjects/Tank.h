@@ -95,6 +95,7 @@ public:
 	void update(const double delta) override;
 	double getMaxVelocity() const { return m_maxVelocity; }
 	void setVelocity(const double velocity) override;
+    bool getLifeState() { return m_isAlive; }
     void loseHP();
     void destroyTank();
 	void fire();

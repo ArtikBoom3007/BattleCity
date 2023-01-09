@@ -29,12 +29,17 @@ Bullet::Bullet(const double velocity,
 		m_explisonTimer.start(m_spriteAnimator_explosion.getTotalDuration());
 	};
 	m_colliders.emplace_back(glm::vec2(0), m_size, onCollisionCallback);
+	m_pCollider = &m_colliders[m_colliders.size() - 1];
 
 	m_explisonTimer.setCallback([&]()
 		{
 			m_isExplosion = false;
 			m_isActive = false;
+			m_pCollider->isActive = false;
 			m_spriteAnimator_explosion.reset();
+			m_position = glm::vec2(0, 0); //эта строчка почему то сработала
+			/*m_layer += 1;*/
+
 		}
 	);
 }
@@ -78,7 +83,9 @@ void Bullet::render() const {
 			}
 		}
 	}
-
+	/*else {
+		m_pSprite_top->render(m_position, m_size, m_rotation, m_layer);
+	}*/
 }
 
 void Bullet::update(const double delta) {
@@ -89,6 +96,7 @@ void Bullet::update(const double delta) {
 }
 
 void Bullet::fire(const glm::vec2& position, const glm::vec2& direction) {
+	m_pCollider->isActive = true;
 	m_position = position;
 	m_direction = direction;
 	if (m_direction.x == 0.f) {

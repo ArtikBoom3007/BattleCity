@@ -49,7 +49,7 @@ private:
 
 	std::vector<std::shared_ptr<IGameObject>> m_levelObjects;
 	std::shared_ptr<Tank> m_pTank1;
-	std::shared_ptr<Tank> m_pTank2;
+	std::shared_ptr<Tank> m_pTank2; 
 	std::set< std::shared_ptr<Tank>> m_enemyTanks;
 	Game::EGameMode m_eGameMode;
 };

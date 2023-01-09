@@ -47,6 +47,7 @@ protected:
 	float m_rotation;
 	float m_layer;
 	EObjectType m_objectType;
+	Physics::Collider* m_pCollider;
 
 	glm::vec2 m_direction;
 	double m_velocity;

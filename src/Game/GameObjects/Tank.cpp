@@ -78,11 +78,16 @@ Tank::Tank(const Tank::ETankType eType,
 	};
 	m_colliders.emplace_back(glm::vec2(0), m_size, onCollisionCallback);
 
+	m_pCollider = &m_colliders[m_colliders.size() - 1];
+
 	m_explisonTimer.setCallback([&]()
 		{
 			m_isExplosion = false;
 			m_isAlive = false;
+			m_pCollider->isActive = false;
 			m_spriteAnimator_explosionTank.reset();
+			m_position = glm::vec2(0, 0);
+			/*m_layer += 1;*/
 		}
 	);
 }
@@ -137,6 +142,9 @@ void Tank::render() const {
 			m_pSprite_shield->render(m_position, m_size, m_rotation, m_layer + 0.1f, m_spriteAnimator_shield.getCurrentFrame());
 		}
 	}
+	/*if (!m_isAlive) {
+		m_pSprite_right->render(m_position, m_size, m_rotation, m_layer);
+	}*/
 	if (m_isExplosion) {
 		m_pSprite_explosionTank->render(m_position, m_size, m_rotation, m_layer + 0.2f, m_spriteAnimator_explosionTank.getCurrentFrame());
 	}
@@ -216,7 +224,7 @@ void Tank::update(const double delta) {
 }
 
 void Tank::fire() {
-	if (!m_pCurrentBullet->isActive() && !m_isSpawning) {
+	if (!m_pCurrentBullet->isActive() && !m_isSpawning && this->getLifeState()) {
 		m_pCurrentBullet->fire(m_position + m_size / 4.f + m_size * m_direction / 4.f, m_direction);
 	}
 }
