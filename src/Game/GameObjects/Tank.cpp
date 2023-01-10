@@ -80,14 +80,14 @@ Tank::Tank(const Tank::ETankType eType,
 
 	m_pCollider = &m_colliders[m_colliders.size() - 1];
 
-	m_explisonTimer.setCallback([&]()
+	m_tankExplosionTimer.setCallback([&]()
 		{
 			m_isExplosion = false;
 			m_isAlive = false;
 			m_pCollider->isActive = false;
 			m_spriteAnimator_explosionTank.reset();
-			m_position = glm::vec2(0, 0);
-			/*m_layer += 1;*/
+			m_pCurrentBullet->unableBullet();
+			m_position = glm::vec2(0, 40);
 		}
 	);
 }
@@ -113,7 +113,8 @@ void Tank::loseHP()
 void Tank::destroyTank()
 {
 	m_isExplosion = true;
-	m_explisonTimer.start(m_spriteAnimator_explosionTank.getTotalDuration());
+	m_tankExplosionTimer.start(m_spriteAnimator_explosionTank.getTotalDuration());
+
 }
 
 void Tank::render() const {
@@ -142,13 +143,9 @@ void Tank::render() const {
 			m_pSprite_shield->render(m_position, m_size, m_rotation, m_layer + 0.1f, m_spriteAnimator_shield.getCurrentFrame());
 		}
 	}
-	/*if (!m_isAlive) {
-		m_pSprite_right->render(m_position, m_size, m_rotation, m_layer);
-	}*/
 	if (m_isExplosion) {
 		m_pSprite_explosionTank->render(m_position, m_size, m_rotation, m_layer + 0.2f, m_spriteAnimator_explosionTank.getCurrentFrame());
 	}
-
 	if (m_pCurrentBullet->isActive()) {
 		m_pCurrentBullet->render();
 	}
@@ -180,8 +177,8 @@ void Tank::setOrientation(const EOrientation eOrintation) {
 }
 
 void Tank::update(const double delta) {
-	if (m_pCurrentBullet->isActive()) {
-		m_pCurrentBullet->update(delta);
+	if (m_pCurrentBullet->isActive() || this->m_isAlive) {
+	m_pCurrentBullet->update(delta);
 	}
 	if (m_isSpawning) {
 		m_spriteAnimator_respawn.update(delta);
@@ -195,7 +192,7 @@ void Tank::update(const double delta) {
 		}
 		if (m_isExplosion) {
 			m_spriteAnimator_explosionTank.update(delta);
-			m_explisonTimer.update(delta);
+			m_tankExplosionTimer.update(delta);
 		}
 		if (m_isAlive) {
 			if (m_pAIComponent) {

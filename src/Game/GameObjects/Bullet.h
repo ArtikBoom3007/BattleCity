@@ -29,6 +29,7 @@ public:
 	virtual void render() const override;
 	void update(const double delta) override;
 	bool isActive() const { return m_isActive; }
+	void unableBullet();
 	void fire(const glm::vec2& position, const glm::vec2& direction);
 
 private:

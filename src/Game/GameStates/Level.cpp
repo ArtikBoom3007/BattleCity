@@ -194,9 +194,7 @@ void Level::render() const {
 	}
 
 	for (const auto& currentTank : m_enemyTanks) {
-		if (currentTank->getLifeState()) {
-			currentTank->render();
-		}
+		currentTank->render();
 	}
 }
 void Level::update(const double delta) {
@@ -215,9 +213,7 @@ void Level::update(const double delta) {
 	}
 
 	for (const auto& currentTank : m_enemyTanks) {
-		if (currentTank->getLifeState()) {
-			currentTank->update(delta);
-		}
+		currentTank->update(delta);
 	}
 }
 

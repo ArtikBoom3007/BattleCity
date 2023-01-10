@@ -123,7 +123,7 @@ private:
 
 	Timer m_respawnTimer;
 	Timer m_shieldTimer;
-    Timer m_explisonTimer;
+    Timer m_tankExplosionTimer;
 
 	double m_maxVelocity;
     bool m_isAlive;
