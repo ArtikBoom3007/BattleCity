@@ -224,7 +224,7 @@ void Tank::update(const double delta) {
 void Tank::fire() {
 	if (!m_pCurrentBullet->isActive() && !m_isSpawning && this->getLifeState()) {
 		m_pCurrentBullet->fire(m_position + m_size / 4.f + m_size * m_direction / 4.f, m_direction);
-		AudioEngine::playAudio("tank");
+		AudioEngine::playAudio("tankFires");
 	}
 }
 

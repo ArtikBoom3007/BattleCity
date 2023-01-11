@@ -12,6 +12,7 @@
 #include "GameStates/StartScreen.h"
 #include "../Physics/PhysicsEngine.h"
 #include "../Renderer/Renderer.h"
+#include "../System/AudioEngine/AudioEngine.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/mat4x4.hpp>
@@ -83,6 +84,8 @@ void Game::setKey(const int key, const int action) {
 }
 bool Game::init() {
     ResourceManager::loadJSONRecources("res/resources.json");
+
+    AudioEngine::setAudioDevice();
 
     m_pSpriteShaderProgram = ResourceManager::getShaderProgram("spriteShader");
     if (!m_pSpriteShaderProgram) {

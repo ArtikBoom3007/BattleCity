@@ -30,6 +30,7 @@ Bullet::Bullet(const double velocity,
 	};
 	m_colliders.emplace_back(glm::vec2(0), m_size, onCollisionCallback);
 	m_pCollider = &m_colliders[m_colliders.size() - 1];
+	unableBullet();
 
 	m_explisonTimer.setCallback([&]()
 		{

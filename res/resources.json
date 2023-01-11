@@ -2035,8 +2035,8 @@
 
   "audioFiles": [
     {
-      "name"    : "tankFires",
-      "filePath": "d/GameDev/BattleCity/build/bin/Debug/res/audio/"
+      "name"    : "tank",
+      "filePath": "../res/audio/"
     }
 
   ]
