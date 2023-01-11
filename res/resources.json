@@ -1993,45 +1993,53 @@
         "FFFFFBC7FC0CFF0FFF0FFFFF"
     ],
 
-	"levels" : [
-		{
-			"description" : [
-				"DDDDDDDDDDDDD",
-				"D1D1D1D1D1D1D",
-				"D4D4D4D4D4D4D",
-				"D4D4D4D4D4D4D",
-				"D4D4D494D4D4D",
-				"D4D4D3D3D4D4D",
-				"D3D3D1D1D3D3D",
-				"1D11D3D3D11D1",
-				"8D33D1D1D33D8",
-				"D1D1D444D1D1D",
-				"D4D4D4D4D4D4D",
-				"D4D4D3D3D4D4D",
-				"D4D4DH1GD4D4D",
-				"DDDDD0E2DDDDD"
-			]
-		},
-		
-		{
-			"description" : [
-				"MDDDDDNDDDDDO",
-				"D00D11D22D33D",
-				"D0DD1DD2DD3DD",
-				"DDDDDDDDDDDDD",
-				"D44D55D66D77D",
-				"D4DD5DD6DD7DD",
-				"DDDDDDDDDDDDD",
-				"D88D99DAADBBD",
-				"D8DD9DDADDBDD",
-				"DDDDDDDDDDDDD",
-				"DCCDGGDHHDIID",
-				"DCDDGDDHDDDDD",
-				"DDDDDH1GDDJJD",
-				"DDDDK0E2LDDDD"
-			]
-		}
-	]
+  "levels": [
+    {
+      "description": [
+        "DDDDDDDDDDDDD",
+        "D1D1D1D1D1D1D",
+        "D4D4D4D4D4D4D",
+        "D4D4D4D4D4D4D",
+        "D4D4D494D4D4D",
+        "D4D4D3D3D4D4D",
+        "D3D3D1D1D3D3D",
+        "1D11D3D3D11D1",
+        "8D33D1D1D33D8",
+        "D1D1D444D1D1D",
+        "D4D4D4D4D4D4D",
+        "D4D4D3D3D4D4D",
+        "D4D4DH1GD4D4D",
+        "DDDDD0E2DDDDD"
+      ]
+    },
+
+    {
+      "description": [
+        "MDDDDDNDDDDDO",
+        "D00D11D22D33D",
+        "D0DD1DD2DD3DD",
+        "DDDDDDDDDDDDD",
+        "D44D55D66D77D",
+        "D4DD5DD6DD7DD",
+        "DDDDDDDDDDDDD",
+        "D88D99DAADBBD",
+        "D8DD9DDADDBDD",
+        "DDDDDDDDDDDDD",
+        "DCCDGGDHHDIID",
+        "DCDDGDDHDDDDD",
+        "DDDDDH1GDDJJD",
+        "DDDDK0E2LDDDD"
+      ]
+    }
+  ],
+
+  "audioFiles": [
+    {
+      "name"    : "tankFires",
+      "filePath": "d/GameDev/BattleCity/build/bin/Debug/res/audio/"
+    }
+
+  ]
 }
 
 

@@ -40,6 +40,16 @@ add_executable(${PROJECT_NAME}
 	src/System/Timer.h
 	src/System/Timer.cpp
 	
+	src/System/AudioEngine/AudioEngine.h
+	src/System/AudioEngine/AudioEngine.cpp
+	src/System/AudioEngine/SoundBuffer.h 
+	src/System/AudioEngine/SoundBuffer.cpp 
+	src/System/AudioEngine/SoundDevice.h
+	src/System/AudioEngine/SoundDevice.cpp 	
+	src/System/AudioEngine/SoundSource.h
+	src/System/AudioEngine/SoundSource.cpp 	
+	
+	
 	src/Physics/PhysicsEngine.h
 	src/Physics/PhysicsEngine.cpp
 	
@@ -84,7 +94,18 @@ target_link_libraries(${PROJECT_NAME} glad)
 add_subdirectory(external/glm)
 target_link_libraries(${PROJECT_NAME} glm)
 
-include_directories(external/rapidjson/include)
+add_subdirectory(external/libsndfile)
+target_link_libraries(${PROJECT_NAME} SndFile::sndfile)
+
+
+include_directories(external/rapidjson/include/)
+
+include_directories(external/OpenAL/include/)
+
+find_package(REQUIRED)
+add_subdirectory(external/OpenAL)
+target_link_libraries(${PROJECT_NAME} OpenAL::OpenAL)
+
 
 set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
 

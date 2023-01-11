@@ -3,6 +3,8 @@
 #include "../Renderer/Texture2D.h"
 #include "../Renderer/Sprite.h"
 
+#include "../../src/System/AudioEngine/AudioEngine.h"
+
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_ONLY_PNG
 #include "stb_image.h"
@@ -274,10 +276,8 @@ bool  ResourceManager::loadJSONRecources(const std::string& JSONPath) {
 	}
 
 	auto levelsIt = document.FindMember("levels");
-	if (textureAtlasesIt != document.MemberEnd())
-	{
-		for (const auto& currentLevel : levelsIt->value.GetArray())
-		{
+	if (textureAtlasesIt != document.MemberEnd()) {
+		for (const auto& currentLevel : levelsIt->value.GetArray()) {
 			const auto description = currentLevel["description"].GetArray();
 			std::vector <std::string> levelRows;
 			levelRows.reserve(description.Size());
@@ -295,6 +295,14 @@ bool  ResourceManager::loadJSONRecources(const std::string& JSONPath) {
 				}
 			}
 			m_levels.emplace_back(std::move(levelRows));
+		}
+	}
+
+	auto audio = document.FindMember("audioFiles");
+	if (audio != document.MemberEnd()) {
+		for (const auto& currentAudio : audio->value.GetArray()) {
+			const std::string path = currentAudio["filePath"].GetString();
+			AudioEngine::setAudioPath(path);
 		}
 	}
 	return true;

@@ -9,6 +9,9 @@ namespace RenderEngine {
 	class Texture2D;
 	class Sprite;
 }
+
+class AudioFile;
+
 class ResourceManager
 {
 public:

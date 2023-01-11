@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/vec2.hpp>
+#include <AL/al.h>
 
 #include <iostream>
 #include <chrono>
@@ -37,6 +38,7 @@ void glfwKeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int
 
 int main(int argc, char** argv)
 {
+    setlocale(LC_ALL, "rus");
     /* Initialize the library */
     if (!glfwInit()) {
         std::cout << "glfwInit failed" << std::endl;

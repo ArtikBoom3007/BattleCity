@@ -9,7 +9,7 @@ AIComponent::AIComponent(Tank* pParentTank)
 }
 
 void AIComponent::update(const double delta) {
-	m_pParentTank->fire();
+	//m_pParentTank->fire();
 	/*if (m_pParentTank->onCollision()) {
 
 	}*/

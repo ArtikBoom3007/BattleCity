@@ -5,6 +5,7 @@
 #include "Bullet.h"
 #include "../../Physics/PhysicsEngine.h"
 #include "../AIComponent.h"
+#include "../../System/AudioEngine/AudioEngine.h"
 
 const std::string& Tank::getTankSpriteFromType(const ETankType eType) {
 	return TankTypeToSpriteString[static_cast<size_t>(eType)];
@@ -223,6 +224,7 @@ void Tank::update(const double delta) {
 void Tank::fire() {
 	if (!m_pCurrentBullet->isActive() && !m_isSpawning && this->getLifeState()) {
 		m_pCurrentBullet->fire(m_position + m_size / 4.f + m_size * m_direction / 4.f, m_direction);
+		AudioEngine::playAudio("tank");
 	}
 }
 
