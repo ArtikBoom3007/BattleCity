@@ -5,6 +5,8 @@
 #include <glm/vec2.hpp>
 #include <string>
 
+#include <thread>
+
 #include "IGameObject.h"
 #include "../../Renderer/SpriteAnimator.h"
 #include "../../src/System/Timer.h"
@@ -134,6 +136,7 @@ private:
     unsigned int m_maxHealthPoints = 3;
     unsigned int m_healthPoints;
 
+    std::thread audioThread;
 
     std::unique_ptr<AIComponent> m_pAIComponent;
 
