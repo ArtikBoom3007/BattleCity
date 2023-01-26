@@ -3,9 +3,11 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <thread>
 #include <glm/vec2.hpp>
 
 #include "IGameState.h"
+#include "../../src/System/AudioEngine/AudioEngine.h"
 #include "../../Renderer/SpriteAnimator.h"
 
 namespace RenderEngine {
@@ -42,4 +44,6 @@ private:
 	std::pair<std::shared_ptr<RenderEngine::Sprite>, glm::vec2> m_menuSprite;
 	std::pair<std::shared_ptr<RenderEngine::Sprite>, glm::vec2> m_tankSprite;
 	RenderEngine::SpriteAnimator m_tankSpriteAnimator;
+
+	std::thread screenAudio;
 };

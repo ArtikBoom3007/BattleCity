@@ -143,9 +143,13 @@ void StartScreen::processInput(const std::array<bool, 349>& keys)
         switch (m_currentMenuSelection)
         {
         case 0:
+            screenAudio = std::thread(std::ref(AudioEngine::playAudio), "startScreen");
+            screenAudio.detach();
             m_pGame->startNewLevel(0, Game::EGameMode::OnePlayer);
             break;
         case 1:
+            screenAudio = std::thread(std::ref(AudioEngine::playAudio), "startScreen");
+            screenAudio.detach();
             m_pGame->startNewLevel(0, Game::EGameMode::TwoPlayers);
             break;
         default:

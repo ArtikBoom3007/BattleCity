@@ -2036,7 +2036,7 @@
   "audioFiles": [
     {
       "name"    : "tank",
-      "filePath": "../res/audio/"
+      "filePath": "/res/audio/"
     }
 
   ]
