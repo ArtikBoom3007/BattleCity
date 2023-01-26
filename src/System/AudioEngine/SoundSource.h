@@ -7,9 +7,15 @@ public:
 	~SoundSource();
 
 	void Play(const ALuint buffer_to_play);
+	//bool IsStreamed();
+	void Close();
+	void Update();
+	void Move(float X, float Y, float Z);
+	void Stop();
+	void setGain(float gain);
 
 private:
-	ALuint p_Source;
+	ALuint m_pSource;
 	float p_Pitch = 1.f;
 	float p_Gain = 1.f;
 	float p_Position[3] = { 0,0,0 };

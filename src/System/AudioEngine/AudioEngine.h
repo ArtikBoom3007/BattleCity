@@ -3,6 +3,7 @@
 #include "SoundDevice.h"
 #include "SoundBuffer.h"
 #include "SoundSource.h"
+#include "glm/vec2.hpp"
 #include <vector>
 #include <string>
 
@@ -15,8 +16,12 @@ public:
 	static void playAudio(const std::string& name);
 	static void setAudioPath(const std::string& path) { m_path = path; }
 	static void setAudioDevice();
+	static void stopAudio();
+	//static void LoadAudioSources();
 
 private:
+	static std::vector<std::pair<SoundSource, glm::vec2>> m_soundSources;
+	static bool m_shouldPlay;
 	static std::string m_path;
 	static SoundDevice* m_pSoundDevice;
 
