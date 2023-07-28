@@ -5,7 +5,9 @@ class SoundDevice
 {
 public:
 	SoundDevice();
-	~SoundDevice();
+	~SoundDevice() = delete;
+
+	void deleteSoundDevice();
 	static SoundDevice* get();
 
 private:

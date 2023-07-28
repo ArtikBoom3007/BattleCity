@@ -21,8 +21,8 @@ public:
 	//static void LoadAudioSources();
 
 private:
-	static std::vector<SoundBuffer*> soundBuffers;
-	static std::vector<std::pair<SoundSource, glm::vec2>> m_soundSources;
+	static std::vector<SoundBuffer*> m_pSoundBuffers;
+	static std::vector<SoundSource*> m_pSoundSources;
 	static std::string m_path;
 	static SoundDevice* m_pSoundDevice;
 

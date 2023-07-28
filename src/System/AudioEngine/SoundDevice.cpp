@@ -29,7 +29,7 @@ SoundDevice::SoundDevice()
 	std::cout << "Opened " << name << std::endl;
 }
 
-SoundDevice::~SoundDevice()
+void SoundDevice::deleteSoundDevice()
 {
 	if (!alcMakeContextCurrent(nullptr))
 		std::cerr << "failed to set context to nullptr " << std::endl;

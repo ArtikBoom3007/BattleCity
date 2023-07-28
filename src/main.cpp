@@ -10,6 +10,7 @@
 #include "Resources/ResourceManager.h"
 #include "Renderer/Renderer.h"
 #include "Physics/PhysicsEngine.h"
+#include "System/AudioEngine/AudioEngine.h"
 
 static constexpr unsigned int SCALE = 3;
 static constexpr unsigned int BLOCK_SIZE = 16;
@@ -110,6 +111,7 @@ int main(int argc, char** argv)
         }
         g_game = nullptr;
         ResourceManager::unloadAllresources();
+        AudioEngine::unload();
     }
     glfwTerminate();
     return 0;

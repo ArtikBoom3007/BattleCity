@@ -34,7 +34,7 @@ void Game::setWindowSize(const glm::uvec2& windowSize) {
 }
 
 Game::~Game() {
-    AudioEngine::unload();
+
 }
 
 void Game::render() {

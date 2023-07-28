@@ -3,11 +3,6 @@
 #include <inttypes.h>
 #include "AL/alext.h"
 
-SoundBuffer* SoundBuffer::get()
-{
-	static SoundBuffer* sndbuf = new SoundBuffer();
-	return sndbuf;
-}
 
 ALuint SoundBuffer::addSoundEffect(const char* filename)
 {

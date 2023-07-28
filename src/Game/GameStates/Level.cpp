@@ -11,6 +11,7 @@
 #include "../GameObjects/Border.h"
 #include "../GameObjects/Tank.h"
 
+#include "../../System/AudioEngine/AudioEngine.h"
 #include "../../Physics/PhysicsEngine.h"
 
 #include <GLFW/glfw3.h>
@@ -269,6 +270,9 @@ void Level::processInput(const std::array<bool, 349>& keys) {
 		{
 			m_pTank1->setOrientation(Tank::EOrientation::Bottom);
 			m_pTank1->setVelocity(m_pTank1->getMaxVelocity());
+		}
+		else if (keys[GLFW_KEY_P]) {
+			AudioEngine::stopAudio();
 		}
 		else
 		{

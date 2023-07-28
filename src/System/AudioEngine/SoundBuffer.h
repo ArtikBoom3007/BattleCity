@@ -6,7 +6,6 @@ class SoundBuffer
 public:
 	SoundBuffer();
 	~SoundBuffer();
-	static SoundBuffer* get();
 
 	std::vector<ALuint> getBuffers() { return p_SoundEffectBuffers;  }
 	ALuint addSoundEffect(const char* filename);
