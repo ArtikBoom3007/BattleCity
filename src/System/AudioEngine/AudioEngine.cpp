@@ -2,12 +2,18 @@
 #include "AudioEngine.h"
 
 std::string  AudioEngine::m_path;
+std::string  AudioEngine::m_exePath;
 SoundDevice* AudioEngine::m_pSoundDevice;
 //std::vector<SoundSource*> AudioEngine::m_pSoundSources;
 std::vector<SoundBuffer*> AudioEngine::m_pSoundBuffers;
 
 void AudioEngine::setAudioDevice() {
 	m_pSoundDevice = SoundDevice::get();
+}
+
+void AudioEngine::setExecutablePath(const std::string& executablePath) {
+	size_t found = executablePath.find_last_of("/\\");
+	m_exePath = executablePath.substr(0, found);
 }
 
 //void AudioEngine::LoadAudioSources() {
@@ -19,7 +25,7 @@ void AudioEngine::playAudio(const std::string& name)
 {
 	SoundBuffer* soundBuffer = new SoundBuffer();
 
-	/*uint32_t*/ ALuint sound = soundBuffer->addSoundEffect((m_path + name + ".wav").c_str());
+	/*uint32_t*/ ALuint sound = soundBuffer->addSoundEffect((m_path + "/" + name + ".wav").c_str());
 	
 	m_pSoundBuffers.push_back(soundBuffer);
 

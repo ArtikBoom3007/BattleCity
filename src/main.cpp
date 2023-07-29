@@ -78,6 +78,7 @@ int main(int argc, char** argv)
     
     {
         ResourceManager::setExecutablePath(argv[0]);
+        AudioEngine::setExecutablePath(argv[0]);
         Physics::PhysicsEngine::init();
         g_game->init();
 
