@@ -85,8 +85,6 @@ void Game::setKey(const int key, const int action) {
 bool Game::init() {
     ResourceManager::loadJSONRecources("res/resources.json");
 
-    AudioEngine::setAudioDevice();
-
     m_pSpriteShaderProgram = ResourceManager::getShaderProgram("spriteShader");
     if (!m_pSpriteShaderProgram) {
         std::cerr << "Can't find shader program: " << "spriteShader" << std::endl;

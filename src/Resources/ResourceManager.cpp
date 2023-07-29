@@ -301,8 +301,11 @@ bool  ResourceManager::loadJSONRecources(const std::string& JSONPath) {
 	auto audio = document.FindMember("audioFiles");
 	if (audio != document.MemberEnd()) {
 		for (const auto& currentAudio : audio->value.GetArray()) {
+			const std::string name = currentAudio["name"].GetString();
 			const std::string path = currentAudio["filePath"].GetString();
+			const float gain = currentAudio["gain"].GetFloat();
 			AudioEngine::setAudioPath(path);
+			AudioEngine::addSound(name);
 		}
 	}
 	return true;

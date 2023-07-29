@@ -1,10 +1,11 @@
 
 #include "AudioEngine.h"
+#include <algorithm>
 
 std::string  AudioEngine::m_path;
 std::string  AudioEngine::m_exePath;
 SoundDevice* AudioEngine::m_pSoundDevice;
-//std::vector<SoundSource*> AudioEngine::m_pSoundSources;
+std::vector<std::pair<const std::string, ALuint>> AudioEngine::m_pSounds;
 std::vector<SoundBuffer*> AudioEngine::m_pSoundBuffers;
 
 void AudioEngine::setAudioDevice() {
@@ -21,27 +22,41 @@ void AudioEngine::setExecutablePath(const std::string& executablePath) {
 //	m_soundSources.push_back(std::make_pair(mySpeaker, glm::vec2(0)));
 //}
 
-void AudioEngine::playAudio(const std::string& name)
-{
+void AudioEngine::addSound(const std::string& name) {
+
 	SoundBuffer* soundBuffer = new SoundBuffer();
 
-	/*uint32_t*/ ALuint sound = soundBuffer->addSoundEffect((m_path + "/" + name + ".wav").c_str());
-	
+	/*uint32_t*/ ALuint sound = soundBuffer->addSoundEffect((m_path + "/" + name.c_str() + ".wav").c_str());
+
 	m_pSoundBuffers.push_back(soundBuffer);
+
+	m_pSounds.push_back(std::make_pair(name, sound));
+
+}
+
+void AudioEngine::playAudio(const std::string& name)
+{
 
 	SoundSource mySpeaker;
 
-	if (name == "startScreen") {
+	if (name == "start_screen_audio") {
 		mySpeaker.setGain((float)0.030);
+	}
+
+	for (auto& currentSound : m_pSounds) {
+		if (currentSound.first == name) {
+			mySpeaker.Play(currentSound.second);
+			break;
+		}
 	}
 
 	//m_pSoundSources.push_back(&mySpeaker);
 
-	mySpeaker.Play(sound);
-	
+	//mySpeaker.Play(itr->second);
+
 	mySpeaker.Update();
 
-	
+
 
 }
 

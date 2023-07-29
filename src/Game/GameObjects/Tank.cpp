@@ -228,9 +228,9 @@ void Tank::fire() {
 	if (!m_pCurrentBullet->isActive() && !m_isSpawning && this->getLifeState()) {
 		m_pCurrentBullet->fire(m_position + m_size / 4.f + m_size * m_direction / 4.f, m_direction);
 		//void (*c1)(const std::string&) = std::ref(AudioEngine::playAudio);
-		AudioEngine::playAudio( "tankFires");
-		//audioThread = std::thread(std::ref(AudioEngine::playAudio), "tankFires");
-		//audioThread.detach();
+		//AudioEngine::playAudio( "tankFires");
+		audioThread = std::thread(std::ref(AudioEngine::playAudio), "tank_fire");
+		audioThread.detach();
 	}
 
 }

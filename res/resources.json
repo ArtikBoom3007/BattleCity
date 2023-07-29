@@ -2035,9 +2035,16 @@
 
   "audioFiles": [
     {
-      "name"    : "tank",
-      "filePath": "/res/audio/"
-    }
+      "name"    : "start_screen_audio",
+      "filePath": "/res/audio/",
+	  "gain"    : 0.03
+    },
+	
+	{
+	  "name"    : "tank_fire",
+      "filePath": "/res/audio/",
+	  "gain"    : 1
+	}
 
   ]
 }
