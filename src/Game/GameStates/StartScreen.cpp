@@ -59,6 +59,9 @@ StartScreen::StartScreen(const std::vector<std::string>& startScreenDescription,
     , m_tankSprite(std::make_pair(ResourceManager::getSprite("player1_yellow_tank_type1_sprite_right"), glm::vec2(8 * BLOCK_SIZE, m_menuSprite.second.y + 6 * BLOCK_SIZE - m_currentMenuSelection * 2 * BLOCK_SIZE)))
     , m_tankSpriteAnimator(m_tankSprite.first)
 {
+    SoundSource* source = new SoundSource;
+    m_pSoundSource = source;
+
     if (startScreenDescription.empty())
     {
         std::cerr << "Empty start screen description!" << std::endl;
@@ -143,13 +146,15 @@ void StartScreen::processInput(const std::array<bool, 349>& keys)
         switch (m_currentMenuSelection)
         {
         case 0:
-            screenAudio = std::thread(std::ref(AudioEngine::playAudio), "start_screen_audio");
-            screenAudio.detach();
+            //screenAudio = std::thread(std::ref(AudioEngine::playAudio), "start_screen_audio");
+            //screenAudio.detach();
+            AudioEngine::playAudio(m_pSoundSource, "start_screen_audio");
             m_pGame->startNewLevel(0, Game::EGameMode::OnePlayer);
             break;
         case 1:
-            screenAudio = std::thread(std::ref(AudioEngine::playAudio), "start_screen_audio");
-            screenAudio.detach();
+            //screenAudio = std::thread(std::ref(AudioEngine::playAudio), "start_screen_audio");
+            //screenAudio.detach();
+            AudioEngine::playAudio(m_pSoundSource, "start_screen_audio");
             m_pGame->startNewLevel(0, Game::EGameMode::TwoPlayers);
             break;
         default:

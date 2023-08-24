@@ -5,11 +5,12 @@ IGameObject::IGameObject(const EObjectType objectType, const glm::vec2& position
 	, m_position(position)
 	, m_targetPosition(position)
 	, m_size(size)
-	,m_rotation(rotation)
+	, m_rotation(rotation)
 	, m_layer(layer)
 	, m_objectType(objectType)
 	, m_direction(0, 1.f)
 	, m_velocity(0)
+	, m_pSoundSource(nullptr)
 {
 
 }

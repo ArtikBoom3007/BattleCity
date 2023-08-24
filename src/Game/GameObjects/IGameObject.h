@@ -3,10 +3,12 @@
 #include <glm/vec2.hpp>
 
 #include "../../Physics/PhysicsEngine.h"
+#include "../../System/AudioEngine/AudioEngine.h"
 
 class IGameObject
 {
 public:
+	SoundSource* m_pSoundSource;
 	enum class EObjectType {
 		BetonWall,
 		Border,
@@ -52,4 +54,5 @@ protected:
 	glm::vec2 m_direction;
 	double m_velocity;
 	std::vector<Physics::Collider> m_colliders;
+
 };

@@ -1,5 +1,6 @@
 
 #include "AudioEngine.h"
+
 #include <algorithm>
 
 std::string  AudioEngine::m_path;
@@ -7,6 +8,7 @@ std::string  AudioEngine::m_exePath;
 SoundDevice* AudioEngine::m_pSoundDevice;
 std::vector<std::pair<const std::string, ALuint>> AudioEngine::m_pSounds;
 std::vector<SoundBuffer*> AudioEngine::m_pSoundBuffers;
+std::thread AudioEngine::audio_thread;	
 
 void AudioEngine::setAudioDevice() {
 	m_pSoundDevice = SoundDevice::get();
@@ -34,18 +36,17 @@ void AudioEngine::addSound(const std::string& name) {
 
 }
 
-void AudioEngine::playAudio(const std::string& name)
+void AudioEngine::playAudio(SoundSource* source, const std::string& name)
 {
 
-	SoundSource mySpeaker;
-
 	if (name == "start_screen_audio") {
-		mySpeaker.setGain((float)0.030);
+		source->setGain((float)0.030);
 	}
 
 	for (auto& currentSound : m_pSounds) {
 		if (currentSound.first == name) {
-			mySpeaker.Play(currentSound.second);
+			audio_thread =  std::thread(&SoundSource::Play, source, std::ref(currentSound.second));
+			audio_thread.detach();
 			break;
 		}
 	}
@@ -54,7 +55,7 @@ void AudioEngine::playAudio(const std::string& name)
 
 	//mySpeaker.Play(itr->second);
 
-	mySpeaker.Update();
+	source->Update();
 
 
 

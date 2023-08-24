@@ -48,6 +48,9 @@ Tank::Tank(const Tank::ETankType eType,
 	, m_isAlive(true)
 	, m_isExplosion(false)
 {
+	SoundSource* tankSource = new SoundSource;
+	m_pSoundSource = tankSource;
+
 	setOrientation(m_eOrientation);
 	m_respawnTimer.setCallback([&]()
 	{
@@ -229,7 +232,7 @@ void Tank::fire() {
 		m_pCurrentBullet->fire(m_position + m_size / 4.f + m_size * m_direction / 4.f, m_direction);
 		//void (*c1)(const std::string&) = std::ref(AudioEngine::playAudio);
 		//AudioEngine::playAudio( "tankFires");
-		audioThread = std::thread(std::ref(AudioEngine::playAudio), "tank_fire");
+		audioThread = std::thread(std::ref(AudioEngine::playAudio), this->m_pSoundSource ,"tank_fire");
 		audioThread.detach();
 	}
 

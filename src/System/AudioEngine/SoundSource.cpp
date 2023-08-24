@@ -19,9 +19,10 @@ SoundSource::~SoundSource()
 
 void SoundSource::Play(const ALuint buffer_to_play)
 {
-	alSourceQueueBuffers(m_pSource, 1, &buffer_to_play);
+	
 	if (buffer_to_play != p_Buffer)
 	{
+			alSourceQueueBuffers(m_pSource, 1, &buffer_to_play);
 			p_Buffer = buffer_to_play;
 			alSourcei(m_pSource, AL_BUFFER, (ALint)p_Buffer);
 	}
@@ -34,6 +35,8 @@ void SoundSource::Play(const ALuint buffer_to_play)
 	{
 		alGetSourcei(m_pSource, AL_SOURCE_STATE, &state);
 	}
+
+
 }
 
 void SoundSource::setGain(float gain) {

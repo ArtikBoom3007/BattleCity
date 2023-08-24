@@ -6,6 +6,8 @@
 #include <thread>
 #include <glm/vec2.hpp>
 
+#include "../../System/AudioEngine/SoundSource.h"
+
 #include "IGameState.h"
 #include "../../src/System/AudioEngine/AudioEngine.h"
 #include "../../Renderer/SpriteAnimator.h"
@@ -45,5 +47,6 @@ private:
 	std::pair<std::shared_ptr<RenderEngine::Sprite>, glm::vec2> m_tankSprite;
 	RenderEngine::SpriteAnimator m_tankSpriteAnimator;
 
-	std::thread screenAudio;
+	SoundSource* m_pSoundSource;
+	//std::thread screenAudio;
 };
